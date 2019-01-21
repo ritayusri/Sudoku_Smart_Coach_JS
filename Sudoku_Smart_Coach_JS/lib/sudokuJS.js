@@ -2,6 +2,8 @@
 // https://github.com/pocketjoso/sudokuJS
 // Author: Jonas Ohlsson
 // License: MIT
+// Developed by: Rita Yusri
+// https://github.com/ritayusri/Sudoku_Smart_Coach_JS
 
 (function (window, $, undefined) {
 	'use strict';
