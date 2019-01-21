@@ -1,3 +1,7 @@
+// Developed by: Rita Yusri
+// https://github.com/ritayusri/Sudoku_Smart_Coach_JS
+
+
 var profil = {err_cand:0, err_chiffr:0, bon_cand:0, bon_rep:0};
 var corr_can_array= new Array();
 function cons_correct_can(){
