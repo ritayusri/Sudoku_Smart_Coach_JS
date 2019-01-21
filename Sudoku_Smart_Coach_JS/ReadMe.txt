@@ -2,6 +2,8 @@
 ---------------------
 Le Sudoku Smart Coach permet d'apprendre les règles et stratégies pour la résolution de différentes grilles de Sudoku
 
+https://github.com/ritayusri/Sudoku_Smart_Coach_JS
+
 ---- Initiation du processus ----
 Dézipper le répertoire: 
 Dans le répertoire:
