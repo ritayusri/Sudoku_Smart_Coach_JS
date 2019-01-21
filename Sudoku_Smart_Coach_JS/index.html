@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+		<link rel="stylesheet" media="all" type="text/css" href="lib/sudokuJS.css">
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<style>
+			* {
+				margin:0; padding:0;
+				-moz-box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.wrap {
+				padding: 1em 1em;
+				width: 400px;
+				max-width: 100%;
+				margin-left: 5%;
+				margin-right: auto;
+			}
+
+			@media(min-width: 30em){
+				.wrap{
+					width: 550px;
+				}
+				.sudoku-board input {
+					font-size: 24px;
+					font-size: 1.5rem;
+				}
+				.sudoku-board .candidates {
+					font-size: .8em;
+				}
+			}
+			.left {
+				left: 0;
+				height: 100%;
+				width: 40%;
+				position: fixed;
+				z-index: 1;
+				top: 0;
+				overflow-x: hidden;
+				padding-top: 20px;
+				}
+
+			.right {
+				right: 0;
+				height: 100%;
+				width: 60%;
+				position: fixed;
+				z-index: 1;
+				top: 0;
+				overflow-x: hidden;
+				padding-top: 20px;
+			   }
+
+			.split {
+				height: 100%;
+				width: 50%;
+				position: fixed;
+				z-index: 1;
+				top: 0;
+				overflow-x: hidden;
+				padding-top: 20px;
+			}
+			.centered {
+				position: absolute;
+				top: 40%;
+				left: 20%;
+				transform: translate(-50%, -50%);
+				text-align: center;
+			}
+						
+			.tutor {position:relative;
+			  background-color: lightgrey;
+			  text-align:left;
+			  width: 95%;
+			  border: 15px solid #088A85;
+			  padding: 25px; 
+			  margin-top: 25px;
+			}
+			#sudoku td{width: 45px;
+				height: 10px;
+				text-align:center;
+				color:green;
+			}
+
+		</style>
+
+		<title>Sudoku Smart Coach</title>
+ <div class="w3-panel w3-round-xlarge w3-teal w3-padding ">
+    <div class="w3-container  " >
+	<img src="lib/images/uqam-blanc.png" alt="Italian Trulli" width=100px; style="float:left;">
+	<img src="lib/images/logo-udem-negatif.png" alt="Italian Trulli" width=150px; style="float:right;">
+	<h1 style="text-align:center; text-shadow:3px 3px 0 #444">Sudoku Smart Coach</h1>
+  </div>
+  
+</div>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+		<script type="text/javascript" src="lib/sudokuJS.js"></script>
+		<script type="text/javascript" src="lib/Tuteur_JS.js"></script>
+	</head>
+
+	<body>
+<div class="w3-cell-row w3-margin-left">
+<!--Jeu-->
+<div class="wrap w3-container w3-cell w3-margin-left" >
+		<h2 style="color:#088A85;">Apprendre en jouant</h2>
+	<ul>
+	<li> Pour ajouter les chiffres candidats d’une case, vous devez cliquer en haut à gauche de la case.</li>
+	<li> Pour ajouter un chiffre certain, vous devez cliquer au milieu de la case.</li>
+
+	</ul>
+<button class="w3-bar-item w3-button w3-teal w3-right" onclick="myFunction()">Générer un nouveau jeu</button>
+<br>
+<script>
+function myFunction() {
+  location.reload();
+}
+</script>
+
+		
+		<div id="sudoku" class="sudoku-board">
+		</div>
+
+</div>
+<!--/Jeu-->	
+<div class="w3-cell w3-border-left">
+	
+	<!--Tuteur-->
+	
+<div class="w3-container w3-padding-16">
+  <h2 style="color:#088A85;">Espace de tuteur</h2>
+  <p>Cliquez pour obtenir les règles, les stratégies et votre profil.</p><br>
+
+  <div class="w3-bar w3-light-grey">
+    <button class="w3-bar-item w3-button tablink " onclick="regle_page_1()">Règles du jeu</button>
+    <button class="w3-bar-item w3-button tablink" onclick="strategies_page_1()">Stratégies du jeu</button>
+	<button class="w3-bar-item w3-button tablink" onclick="profil_page()">Profil du joueur</button>
+    
+  </div>
+  
+  <div id="regles" class="w3-container w3-border w3-display-container city" style="display:none; height:300px;z-index: 1;overflow-x: hidden;">
+   <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+	   <div id="regles_container">
+		
+		</div>
+ 
+  </div>
+
+  <div id="profil" class="w3-container w3-border w3-display-container city" style="display:none; ">
+	  <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+		<div id="profil_container">
+		
+		</div>
+  </div>
+
+  <div id="strategies" class="w3-container w3-border w3-display-container city" style="display:none; height:300px;z-index: 1;overflow-x: hidden;">
+  <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+    <div id="strategies_container">
+	</div>
+  </div>
+</div>
+
+<script>
+function openCity(evt, cityName) {
+  var i, x, tablinks;
+  x = document.getElementsByClassName("city");
+  for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < x.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" w3-light-blue", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " w3-light-blue";
+}
+</script>
+
+	
+	
+	
+	
+		<div class="w3-container"> 
+			<h3 style="color:#088A85;">Message de tuteur</h3>
+				<div id="tutor" class= "tutor">
+					<div id="espace_tuteur_1" > Bonjour, vous pouvez commencer à jouer. </div>
+					<div id="espace_tuteur_2" > </div>
+					<div id="espace_tuteur_3" > </div>
+				</div><br>
+				<h3 style="color:#088A85;">Stratégie/règle associée</h3>
+				<div id="strategie" class= "tutor"> 
+					<div id="espace_strategie_1" >Au début, on vous suggère de placer tous les candidats possible dans toutes les cases de la grille de Sudoku </div>
+					<div id="espace_strategie_2" > </div>
+				</div>
+		</div>
+	</div>
+	<!--Fin Tuteur-->
+
+		</div>
+	
+	<script>
+		var	$candidateToggle = $(".js-candidate-toggle"),
+			$generateBoardBtnEasy = $(".js-generate-board-btn--easy"),
+			$generateBoardBtnMedium = $(".js-generate-board-btn--medium"),
+			$generateBoardBtnHard = $(".js-generate-board-btn--hard"),
+			$generateBoardBtnVeryHard = $(".js-generate-board-btn--very-hard"),
+
+			$solveStepBtn = $(".js-solve-step-btn"),
+			$solveAllBtn = $(".js-solve-all-btn"),
+			$clearBoardBtn = $(".js-clear-board-btn"),
+
+			mySudokuJS = $("#sudoku").sudokuJS({
+				difficulty: "very hard"
+				//change state of our candidate showing checkbox on change in sudokuJS
+				,candidateShowToggleFn : function(showing){
+					$candidateToggle.prop("checked", showing);
+				}
+			});
+
+		$solveStepBtn.on("click", mySudokuJS.solveStep);
+		$solveAllBtn.on("click", mySudokuJS.solveAll);
+		$clearBoardBtn.on("click", mySudokuJS.clearBoard);
+
+		$generateBoardBtnEasy.on("click", function(){
+			mySudokuJS.generateBoard("easy");
+		});
+		$generateBoardBtnMedium.on("click", function(){
+			mySudokuJS.generateBoard("medium");
+		});
+		$generateBoardBtnHard.on("click", function(){
+			mySudokuJS.generateBoard("hard");
+		});
+		$generateBoardBtnVeryHard.on("click", function(){
+			mySudokuJS.generateBoard("very hard");
+		});
+
+		$candidateToggle.on("change", function(){
+			if($candidateToggle.is(":checked"))
+				mySudokuJS.showCandidates();
+			else
+				mySudokuJS.hideCandidates();
+		});
+		$candidateToggle.trigger("change");
+	</script>
+
+	<!-- Footer -->
+	<br>
+<footer class="  w3-teal  w3-padding-24 w3-cell-row">
+  <div class="w3-container  w3-cell"  style="text-align:left">
+	<p>Dans le cadre du cours INF7470 - Systèmes tutoriels intelligents</p>
+	<p>Session Automne 2018</p>
+	<p>Présenté à M.<b> Roger Nkambou</b></p>
+	
+  </div>
+  <div class="w3-container w3-cell "  style="text-align:right">
+	<p>Par: <b>Rita Yusri&nbsp;&nbsp;</b></p>
+	
+  </div>
+  </footer>
+
+	
+	</body>
+</html>
